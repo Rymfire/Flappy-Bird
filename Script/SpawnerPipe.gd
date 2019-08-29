@@ -14,9 +14,10 @@ const AMOUNT_TO_FILL_VIEW = 3
 
 # _ready() will be called as soon as SpawnerPipe is set in a scene.
 func _ready():
-	print("_scene SpawnerPipe >> _ready")
+	pass
+
+func start():
 	set_spawner_init_position()
-# warning-ignore:unused_variable
 	for it in range(AMOUNT_TO_FILL_VIEW):
 		spawn_then_move()
 
@@ -25,7 +26,6 @@ func set_spawner_init_position():
 	var init_pos = Vector2()
 
 	randomize()
-# warning-ignore:integer_division
 	init_pos.x = get_viewport_rect().size.x + PIPE_WIDTH / 2
 	init_pos.y = rand_range(0 + OFFSET_Y, get_viewport_rect().size.y - GROUND_HEIGHT - OFFSET_Y)
 	self.set_position(init_pos)
@@ -46,8 +46,6 @@ func spawn_pipe():
 # go_next_spawn_location() will make move the spawner to the next spawn location
 func go_next_spawn_location():
 	var next_pos = self.get_position()
-# warning-ignore:integer_division
-# warning-ignore:integer_division
 	next_pos.x += PIPE_WIDTH / 2 + OFFSET_X + PIPE_WIDTH / 2
 	next_pos.y = rand_range(0 + OFFSET_Y, get_viewport_rect().size.y - GROUND_HEIGHT - OFFSET_Y)
 	self.set_position(next_pos)

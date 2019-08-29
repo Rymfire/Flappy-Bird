@@ -15,7 +15,6 @@ onready var MainCamera = Utils.get_main_node().get_node("Camera2D")
 func _ready():
 	print("_scene Pipe >> _ready")
 
-# warning-ignore:unused_argument
 func _process(delta):
 	if MainCamera == null:
 		return
