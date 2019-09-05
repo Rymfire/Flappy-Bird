@@ -16,6 +16,7 @@ const AMOUNT_TO_FILL_VIEW = 3
 func _ready():
 	pass
 
+# start() spawns the AMOUNT_TO_FILL_VIEW very firsts pipes in the game scene
 func start():
 	set_spawner_init_position()
 	for it in range(AMOUNT_TO_FILL_VIEW):

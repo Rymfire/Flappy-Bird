@@ -90,7 +90,7 @@ tracks/1/keys = {
 
 [node name="Bird" type="RigidBody2D"]
 position = Vector2( 36, 65.087 )
-gravity_scale = 5.0
+gravity_scale = 0.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true
