@@ -11,8 +11,8 @@ onready var MainCamera = Utils.get_main_node().get_node("Camera2D")
 
 # _ready() will be called as soon as Ground is set in a scene.
 func _ready():
-	print("_scene Ground >> _ready")
-	pass
+	print("Ground >> _ready")
+	self.add_to_group(Group.GROUNDS)
 
 # _process(delta) will be called at each frames.
 # _process will handle Ground deinstanciation when ou out camera view
@@ -22,4 +22,4 @@ func _process(delta):
 	if $DestroyPosition.get_global_position().x <= MainCamera.get_position_with_offset().x:
 		queue_free()
 		emit_signal("ground_destroyed")
-		print("_scene Ground >> _process >> emit_signal \"destroyed\"")
+		print("Ground >> _process >> \"destroyed\" emitted")

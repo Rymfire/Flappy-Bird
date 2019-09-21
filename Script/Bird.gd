@@ -3,11 +3,10 @@
 # Associated to: Bird.tcsn
 # Description: Defines the bird's behaviour (physics, collision, animation, ...)
 
-# ---------------------------------------------------------------------------------------------------
-# >> check add_child() memory leaks
-# ---------------------------------------------------------------------------------------------------
-
 extends RigidBody2D
+
+# signals
+signal state_changed(state)
 
 # state enum
 enum STATE {
@@ -30,6 +29,11 @@ func _ready():
 	curr_state_.enter()
 	print("Bird >> _ready")
 
+# Will be called once Bird enter another body
+func _on_Bird_body_entered(body):
+	if curr_state_.has_method("on_body_entered"):
+		curr_state_.on_body_entered(body)
+
 # _process() will be called to handle all input related to Bird.
 func _process(delta):
 	curr_state_.process_input()
@@ -43,6 +47,8 @@ func set_state(id):
 	curr_state_.exit()
 	curr_state_ = states_[id]
 	curr_state_.enter()
+	emit_signal("state_changed", self.get_state())
+	print("Bird >> set_state >> \"state_changed\" emitted")
 
 # get_state() is a getter to get the current finite machine state
 func get_state():
@@ -81,13 +87,15 @@ class FlyingState:
 	func update_frame(delta):
 		pass
 
-	# input() handles all player input 
+	# input() handles all player input
 	func process_input():
 		pass
 
 	# exit() is called before changing state
 	func exit():
 		bird_.set_gravity_scale(prev_gravity_)
+		bird_.get_node("AnimationPlayer").stop()
+		bird_.get_node("AnimatedSprite").set_position(Vector2(0, 0))
 
 # Class FlappingState ------------------------------------------------------------
 # Will define the Flapping state of the player
@@ -109,6 +117,14 @@ class FlappingState:
 		bird_.set_linear_velocity(Vector2(bird_.SPEED, bird_.get_linear_velocity().y))
 		bird_.set_gravity_scale(5)
 		bird_.set_linear_damp(0)
+		self.jump()
+
+	func on_body_entered(body):
+		if body.is_in_group(Group.PIPES):
+			bird_.set_state(STATE.HIT)
+		elif body.is_in_group(Group.GROUNDS):
+			bird_.set_state(STATE.GROUNDED)
+		pass
 
 	# update_frame() is called for all frame by frame actions
 	# update_frame() handles the jump animation (rotation and velocity)
@@ -124,7 +140,7 @@ class FlappingState:
 	# Then, Bird will start rotating upward. Bird rotating is handled in
 	# update() method.
 	func jump():
-		print("jump")
+		print("Bird >> jump >> \"bird_jump\" detected")
 		bird_.set_linear_velocity(Vector2(bird_.get_linear_velocity().x, -150))
 		bird_.set_angular_velocity(-3)
 		bird_.get_node("AnimationPlayer").play("Flap")
@@ -143,18 +159,27 @@ class FlappingState:
 class HitState:
 	
 	var bird_
-	
+	var other_body_
+
 	#_init() is called when an object of this class is created.
 	func _init(bird):
-		bird_ = bird
+		self.bird_ = bird
 		print("Bird >> HitState >> _init")
 
 	# enter() will be called as soon as the flapping state will be used by bird
 	func enter():
-		pass
+		self.bird_.set_linear_velocity(Vector2(0, 0))
+		self.bird_.set_angular_velocity(2)
+		self.other_body_ = bird_.get_colliding_bodies()[0]
+		self.bird_.add_collision_exception_with(self.other_body_)
 
 	# update_frame() is called for all frame by frame actions
 	func update_frame(delta):
+		pass
+
+	func on_body_entered(body):
+		if body.is_in_group(Group.GROUNDS):
+			self.bird_.set_state(STATE.GROUNDED)
 		pass
 
 	# input() handles all player input 
@@ -178,7 +203,8 @@ class GroundedState:
 
 	# enter() will be called as soon as the flapping state will be used by bird
 	func enter():
-		pass
+		self.bird_.set_linear_velocity(Vector2(0, 0))
+		self.bird_.set_angular_velocity(0)
 
 	# update_frame() is called for all frame by frame actions
 	func update_frame(delta):

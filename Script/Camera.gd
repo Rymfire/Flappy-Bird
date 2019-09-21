@@ -12,7 +12,7 @@ onready var bird = Utils.get_main_node().get_node("Bird")
 
 # _ready() will be called as soon as Camera is set in a scene.
 func _ready():
-	print("_scene Game >> Camera _ready")
+	print("Game >> Camera >> _ready")
 
 # _physics_process() will be called at each frames and will handle Camera-related computing.
 func _physics_process(delta):

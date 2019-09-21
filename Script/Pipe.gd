@@ -13,7 +13,8 @@ onready var MainCamera = Utils.get_main_node().get_node("Camera2D")
 
 # _ready() will be called as soon as Pipe is set in a scene
 func _ready():
-	print("_scene Pipe >> _ready")
+	print("Pipe >> _ready")
+	self.add_to_group(Group.PIPES)
 
 func _process(delta):
 	if MainCamera == null:
@@ -21,3 +22,4 @@ func _process(delta):
 	if $DestroyPosition.get_global_position().x <= MainCamera.get_position_with_offset().x:
 		queue_free()
 		emit_signal("pipe_destroyed")
+		print("Pipe >> _process >> \"pipe_destryed\" emitted")

@@ -12,7 +12,7 @@ const AMOUNT_TO_FILL_VIEW = 2
 
 # _ready() will be called as soon as SpawnerGround is set in a scene.
 func _ready():
-	print("_scene SpawnerGround >> _ready")
+	print("SpawnerGround >> _ready")
 	for it in range(AMOUNT_TO_FILL_VIEW):
 		spawn_then_move()
 
