@@ -27,6 +27,7 @@ const SPEED = 50
 func _ready():
 	curr_state_ = states_[STATE.FLYING]
 	curr_state_.enter()
+	self.add_to_group(Group.BIRDS)
 	print("Bird >> _ready")
 
 # Will be called once Bird enter another body
@@ -119,6 +120,7 @@ class FlappingState:
 		bird_.set_linear_damp(0)
 		self.jump()
 
+	# handles the bird's state / behaviour when colliding with another body
 	func on_body_entered(body):
 		if body.is_in_group(Group.PIPES):
 			bird_.set_state(STATE.HIT)

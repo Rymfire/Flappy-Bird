@@ -8,3 +8,4 @@ extends Node
 # constant as groups
 const PIPES = "pipes"
 const GROUNDS = "grounds"
+const BIRDS = "birds"
