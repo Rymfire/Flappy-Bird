@@ -23,6 +23,7 @@ config/icon="res://icon.png"
 
 Group="*res://Script/Group.gd"
 Utils="*res://Script/Utils.gd"
+Score="*res://Script/Score.gd"
 
 [display]
 

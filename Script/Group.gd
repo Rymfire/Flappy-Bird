@@ -1,6 +1,6 @@
 # Project: Flappy Bird
 # Script: Group.gd
-# Associated to: Group.tcsn
+# Associated to: -
 # Description: Defines all game groups
 
 extends Node
