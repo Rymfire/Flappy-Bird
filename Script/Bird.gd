@@ -83,6 +83,7 @@ class FlyingState:
 		prev_gravity_ = bird_.get_gravity_scale()
 		bird_.set_gravity_scale(0)
 		bird_.set_linear_velocity(Vector2(bird_.SPEED, bird_.get_linear_velocity().y))
+		bird_.set_linear_damp(0)
 
 	# update_frame() is called for all frame by frame actions
 	func update_frame(delta):

@@ -5,6 +5,7 @@
 
 extends Node2D
 
+# constant
 const scn_ground = preload("res://Scene/Ground.tscn")
 const GROUND_OFFSET = 256
 const GROUND_WIDTH = 168

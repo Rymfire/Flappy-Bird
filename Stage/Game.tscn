@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Scene/Background.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scene/SpawnerPipe.tscn" type="PackedScene" id=2]
@@ -8,6 +8,14 @@
 [ext_resource path="res://Sprite/instructions.png" type="Texture" id=6]
 [ext_resource path="res://Font/ScoreFont.TTF" type="DynamicFontData" id=7]
 [ext_resource path="res://Script/ScoreLabel.gd" type="Script" id=8]
+[ext_resource path="res://Script/GameOverContainer.gd" type="Script" id=9]
+[ext_resource path="res://Sprite/label_game_over.png" type="Texture" id=10]
+[ext_resource path="res://Sprite/panel_score.png" type="Texture" id=11]
+[ext_resource path="res://Sprite/button_play_normal.png" type="Texture" id=12]
+[ext_resource path="res://Sprite/button_play_pressed.png" type="Texture" id=13]
+[ext_resource path="res://Script/PlayButton.gd" type="Script" id=14]
+[ext_resource path="res://Sprite/button_score_normal.png" type="Texture" id=15]
+[ext_resource path="res://Sprite/button_score_pressed.png" type="Texture" id=16]
 
 [sub_resource type="GDScript" id=1]
 resource_name = "InstructionButton"
@@ -79,3 +87,67 @@ text = "0
 "
 align = 1
 script = ExtResource( 8 )
+
+[node name="GameOverContainer" type="Container" parent="HUD"]
+visible = false
+margin_right = 144.0
+margin_bottom = 256.0
+script = ExtResource( 9 )
+
+[node name="GameOver" type="TextureRect" parent="HUD/GameOverContainer"]
+margin_left = 24.0
+margin_top = 55.0
+margin_right = 120.0
+margin_bottom = 78.0
+texture = ExtResource( 10 )
+
+[node name="ScorePanel" type="TextureRect" parent="HUD/GameOverContainer"]
+margin_left = 16.0
+margin_top = 95.0
+margin_right = 129.0
+margin_bottom = 152.0
+texture = ExtResource( 11 )
+
+[node name="HBoxButtonContainer" type="HBoxContainer" parent="HUD/GameOverContainer"]
+margin_left = 16.0
+margin_top = 165.0
+margin_right = 129.0
+margin_bottom = 194.0
+custom_constants/separation = 9
+alignment = 1
+
+[node name="PlayButton" type="TextureButton" parent="HUD/GameOverContainer/HBoxButtonContainer"]
+margin_right = 52.0
+margin_bottom = 29.0
+texture_normal = ExtResource( 12 )
+texture_pressed = ExtResource( 13 )
+script = ExtResource( 14 )
+
+[node name="ScoreButton" type="TextureButton" parent="HUD/GameOverContainer/HBoxButtonContainer"]
+margin_left = 61.0
+margin_right = 113.0
+margin_bottom = 29.0
+texture_normal = ExtResource( 15 )
+texture_pressed = ExtResource( 16 )
+
+[node name="tmp text" type="TextEdit" parent="."]
+margin_left = -185.895
+margin_top = -116.728
+margin_right = 350.105
+margin_bottom = -12.7275
+text = "BUGS:
+	- Speed 'damp' bug on main menu (Have a look at Bird.gd)
+	- Score is not correctly reset after restarting a game"
+wrap_enabled = true
+
+[node name="tmp text2" type="TextEdit" parent="."]
+margin_left = -325.0
+margin_top = 9.0
+margin_right = -48.0
+margin_bottom = 245.0
+text = "PATCH NOTE:
+	- GameOver panel implemented (WIP)
+	- GameOver 'restart' button implemented
+	- Main menu speed damp bug fixed
+	- Score bug on restarted games fixed"
+wrap_enabled = true

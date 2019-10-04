@@ -1,0 +1,79 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Sprite/rect_black.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+resource_name = "StageManager"
+script/source = "# Project: Flappy Bird
+# Script: StageManager <built-in>
+# Associated to: StageManager.tcsn
+# Description: Black fade out between 2 stages
+
+extends CanvasLayer
+
+signal stage_changed
+
+const STAGE_GAME = \"res://Stage/Game.tscn\"
+
+func _ready():
+	$Black.visible = false
+
+func change_stage(stage_path):
+	$Black.visible = true
+	# fade into black
+	$AnimationPlayer.play(\"fade_in\")
+	# wait until AnimationPlayer's animation is finished
+	yield($AnimationPlayer, \"animation_finished\")
+	get_tree().change_scene(stage_path)
+	emit_signal(\"stage_changed\")
+	# fade out from black
+	$AnimationPlayer.play(\"fade_out\")
+	# wait until AnimationPlayer's animation is finished	
+	yield($AnimationPlayer, \"animation_finished\")	
+	$Black.visible = false
+"
+
+[sub_resource type="Animation" id=2]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Black:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.25, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Black:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 4, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[node name="StageManager" type="CanvasLayer"]
+layer = 2
+script = SubResource( 1 )
+
+[node name="Black" type="TextureRect" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+margin_right = 144.0
+margin_bottom = 256.0
+texture = ExtResource( 1 )
+expand = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/fade_in = SubResource( 2 )
+anims/fade_out = SubResource( 3 )
