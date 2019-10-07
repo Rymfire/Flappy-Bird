@@ -24,9 +24,10 @@ func on_stage_changed():
 # modified setter for the 'self.best_score' variable
 # emits a signal
 func set_best_score(new_value):
-	best_score = new_value
-	emit_signal("best_score_changed")
-	print("Score >> signal \"best_score_changed\" emitted")
+	if new_value > best_score:
+		best_score = new_value
+		emit_signal("best_score_changed")
+		print("Score >> signal \"best_score_changed\" emitted")
 	pass
 
 # modified setter for the 'self.current_score' variable

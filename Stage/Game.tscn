@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Scene/Background.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scene/SpawnerPipe.tscn" type="PackedScene" id=2]
@@ -11,11 +11,16 @@
 [ext_resource path="res://Script/GameOverContainer.gd" type="Script" id=9]
 [ext_resource path="res://Sprite/label_game_over.png" type="Texture" id=10]
 [ext_resource path="res://Sprite/panel_score.png" type="Texture" id=11]
-[ext_resource path="res://Sprite/button_play_normal.png" type="Texture" id=12]
-[ext_resource path="res://Sprite/button_play_pressed.png" type="Texture" id=13]
-[ext_resource path="res://Script/PlayButton.gd" type="Script" id=14]
-[ext_resource path="res://Sprite/button_score_normal.png" type="Texture" id=15]
-[ext_resource path="res://Sprite/button_score_pressed.png" type="Texture" id=16]
+[ext_resource path="res://Script/FinalScoreContainer.gd" type="Script" id=12]
+[ext_resource path="res://Script/BestScoreContainer.gd" type="Script" id=13]
+[ext_resource path="res://Sprite/label_new.png" type="Texture" id=14]
+[ext_resource path="res://Script/NewLabel.gd" type="Script" id=15]
+[ext_resource path="res://Script/HBoxButtonContainer.gd" type="Script" id=16]
+[ext_resource path="res://Sprite/button_play_normal.png" type="Texture" id=17]
+[ext_resource path="res://Sprite/button_play_pressed.png" type="Texture" id=18]
+[ext_resource path="res://Script/PlayButton.gd" type="Script" id=19]
+[ext_resource path="res://Sprite/button_score_normal.png" type="Texture" id=20]
+[ext_resource path="res://Sprite/button_score_pressed.png" type="Texture" id=21]
 
 [sub_resource type="GDScript" id=1]
 resource_name = "InstructionButton"
@@ -44,6 +49,111 @@ func _on_pressed():
 
 [sub_resource type="DynamicFont" id=2]
 font_data = ExtResource( 7 )
+
+[sub_resource type="Animation" id=6]
+resource_name = "fade_in"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 0.329877, 1 ),
+"update": 0,
+"values": [ Vector2( 0, -20 ), Vector2( 0, 20 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "fade_out"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1.93187, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 20 ), Vector2( 0, -20 ) ]
+}
+
+[sub_resource type="DynamicFont" id=3]
+size = 14
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 7 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 14
+font_data = ExtResource( 7 )
+
+[sub_resource type="Animation" id=5]
+tracks/0/type = "value"
+tracks/0/path = NodePath("GameOver:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 0.757858, 1 ),
+"update": 0,
+"values": [ Vector2( 24, 45 ), Vector2( 24, 55 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("GameOver:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ScorePanel:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("ScorePanel:rect_position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 0.196146, 1 ),
+"update": 0,
+"values": [ Vector2( 16, 275 ), Vector2( 16, 95 ) ]
+}
+tracks/4/type = "method"
+tracks/4/path = NodePath("ScorePanel/FinalScoreContainer")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.9 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "score_animation"
+} ]
+}
 
 [node name="World" type="Node"]
 
@@ -78,9 +188,9 @@ texture = ExtResource( 6 )
 
 [node name="ScoreLabel" type="Label" parent="HUD"]
 anchor_bottom = 1.0
-margin_top = 20.0
+margin_top = -20.0
 margin_right = 144.0
-margin_bottom = -199.0
+margin_bottom = -239.0
 custom_fonts/font = SubResource( 2 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "0
@@ -88,8 +198,11 @@ text = "0
 align = 1
 script = ExtResource( 8 )
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HUD/ScoreLabel"]
+anims/fade_in = SubResource( 6 )
+anims/fade_out = SubResource( 7 )
+
 [node name="GameOverContainer" type="Container" parent="HUD"]
-visible = false
 margin_right = 144.0
 margin_bottom = 256.0
 script = ExtResource( 9 )
@@ -98,7 +211,7 @@ script = ExtResource( 9 )
 margin_left = 24.0
 margin_top = 55.0
 margin_right = 120.0
-margin_bottom = 78.0
+margin_bottom = 77.9999
 texture = ExtResource( 10 )
 
 [node name="ScorePanel" type="TextureRect" parent="HUD/GameOverContainer"]
@@ -108,46 +221,96 @@ margin_right = 129.0
 margin_bottom = 152.0
 texture = ExtResource( 11 )
 
+[node name="FinalScoreContainer" type="Container" parent="HUD/GameOverContainer/ScorePanel"]
+editor/display_folded = true
+margin_right = 113.0
+margin_bottom = 57.0
+script = ExtResource( 12 )
+
+[node name="FinalScore" type="Label" parent="HUD/GameOverContainer/ScorePanel/FinalScoreContainer"]
+margin_left = 65.0
+margin_top = 15.0
+margin_right = 100.0
+margin_bottom = 29.0
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "0"
+align = 2
+valign = 1
+
+[node name="BestScoreContainer" type="Container" parent="HUD/GameOverContainer/ScorePanel"]
+editor/display_folded = true
+margin_right = 113.0
+margin_bottom = 57.0
+script = ExtResource( 13 )
+
+[node name="BestScore" type="Label" parent="HUD/GameOverContainer/ScorePanel/BestScoreContainer"]
+margin_left = 67.0
+margin_top = 36.0
+margin_right = 100.0
+margin_bottom = 50.0
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "0"
+align = 2
+valign = 1
+
+[node name="NewLabel" type="TextureRect" parent="HUD/GameOverContainer/ScorePanel"]
+margin_left = 65.64
+margin_top = 28.7238
+margin_right = 81.64
+margin_bottom = 35.7238
+texture = ExtResource( 14 )
+script = ExtResource( 15 )
+
 [node name="HBoxButtonContainer" type="HBoxContainer" parent="HUD/GameOverContainer"]
+editor/display_folded = true
 margin_left = 16.0
 margin_top = 165.0
 margin_right = 129.0
 margin_bottom = 194.0
 custom_constants/separation = 9
 alignment = 1
+script = ExtResource( 16 )
 
 [node name="PlayButton" type="TextureButton" parent="HUD/GameOverContainer/HBoxButtonContainer"]
 margin_right = 52.0
 margin_bottom = 29.0
-texture_normal = ExtResource( 12 )
-texture_pressed = ExtResource( 13 )
-script = ExtResource( 14 )
+texture_normal = ExtResource( 17 )
+texture_pressed = ExtResource( 18 )
+script = ExtResource( 19 )
 
 [node name="ScoreButton" type="TextureButton" parent="HUD/GameOverContainer/HBoxButtonContainer"]
 margin_left = 61.0
 margin_right = 113.0
 margin_bottom = 29.0
-texture_normal = ExtResource( 15 )
-texture_pressed = ExtResource( 16 )
+texture_normal = ExtResource( 20 )
+texture_pressed = ExtResource( 21 )
 
-[node name="tmp text" type="TextEdit" parent="."]
-margin_left = -185.895
-margin_top = -116.728
-margin_right = 350.105
-margin_bottom = -12.7275
-text = "BUGS:
-	- Speed 'damp' bug on main menu (Have a look at Bird.gd)
-	- Score is not correctly reset after restarting a game"
-wrap_enabled = true
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HUD/GameOverContainer"]
+playback_speed = 1.5
+anims/show = SubResource( 5 )
 
-[node name="tmp text2" type="TextEdit" parent="."]
+[node name="OffScreen" type="Node" parent="."]
+
+[node name="PatchNote" type="TextEdit" parent="OffScreen"]
 margin_left = -325.0
 margin_top = 9.0
 margin_right = -48.0
 margin_bottom = 245.0
 text = "PATCH NOTE:
-	- GameOver panel implemented (WIP)
-	- GameOver 'restart' button implemented
-	- Main menu speed damp bug fixed
-	- Score bug on restarted games fixed"
+	- GameOver panel animation
+	- GameOver buttons animation
+	- Score (current) GameOver panel and it's animation
+	- Score (best) GameOver panel and it's animation
+	- Score (game) panel in and out animations"
+wrap_enabled = true
+
+[node name="Bugs" type="TextEdit" parent="OffScreen"]
+margin_left = -185.895
+margin_top = -116.728
+margin_right = 350.105
+margin_bottom = -12.7275
+text = "BUGS:
+	-"
 wrap_enabled = true
